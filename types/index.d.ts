@@ -8,8 +8,11 @@ declare type SearchParamProps = {
 // ========================================
 
 declare type SignUpParams = {
-  firstName: string;
-  lastName: string;
+  firstName?: string;
+  lastName?: string;
+  address?: string;
+  email: string;
+  password: string;
 };
 
 declare type LoginUser = {
@@ -18,6 +21,7 @@ declare type LoginUser = {
 };
 
 declare type User = {
+  name: string;
   $id: string;
   email: string;
   userId: string;
@@ -191,6 +195,7 @@ declare interface TotalCompletedProps {
 
 declare interface FooterProps {
   user: User;
+  type?: "mobile" | 'desktop';
 }
 
 declare interface RightSidebarProps {
