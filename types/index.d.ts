@@ -15,6 +15,12 @@ declare type SignUpParams = {
   password: string;
 };
 
+
+
+declare type LoggedIN = {
+  loggedIn: string;
+}
+
 declare type LoginUser = {
   email: string;
   password: string;
@@ -121,10 +127,13 @@ declare type NewDwollaCustomerParams = {
   ssn: string;
 };
 
-declare interface CreditCardProps {
-  account: Account;
-  userName: string;
-  showBalance?: boolean;
+declare interface MyAirdropsProps {
+  airdropName: string;
+  airdropTime: Date;
+  dailyActivity: string;
+  airdropType: string;
+  airdropStatus: boolean;
+  airdropLink: string;
 }
 
 declare interface BankInfoProps {

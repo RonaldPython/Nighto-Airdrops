@@ -12,7 +12,7 @@ const DoughnutChart = ({accounts}: DoughnutChartProps) => {
     datasets: [
         {
             label: "Airdrops",
-            data: [1250, 2500, 3750],
+            data: [25,25,100],
             backgroundColor: ['#0747b6', '#2265d8', '#2f91fa']
         }
     ],

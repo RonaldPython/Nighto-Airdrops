@@ -21,14 +21,18 @@ import { Loader2 } from 'lucide-react'
 import { getLoggedInUser, signUp } from "@/lib/actions/user.actions"
 import { signIn } from '@/lib/actions/user.actions'
 import { useRouter } from 'next/navigation'
+import { toast } from 'react-toastify';
+
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const formSchemaAuth = (type: string) => z.object({
 
   email: z.string().email(),
   password: z.string().min(8),
-  firstName: type === "sign-in"  ? z.string().optional(): z.string().min(3),
-  lastName: type === "sign-in" ? z.string().optional(): z.string().min(3),
-  Address: type === "sign-in"  ? z.string().optional(): z.string().min(42).max(42),
+  firstName: type === "sign-in"  ? z.string().optional(): z.string().min(3).max(7),
+  lastName: type === "sign-in" ? z.string().optional(): z.string().min(3).max(7),
+  address: type === "sign-in"  ? z.string().optional(): z.string().min(42).max(42),
 
 })
 
@@ -39,6 +43,7 @@ const AuthForm = ({ type }: {type: string}) => {
   const [IsLoading, setIsLoading] = useState(false)
 
   const formSchema = formSchemaAuth(type)
+
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
@@ -58,6 +63,8 @@ const AuthForm = ({ type }: {type: string}) => {
         const newUser = await signUp(data)
         
         setuser(newUser)
+
+        router.push("/")
       }  
       
       if(type === "sign-in"){
@@ -66,13 +73,19 @@ const AuthForm = ({ type }: {type: string}) => {
           password: data.password,
         })
 
-        if(response) router.push("/")
+        if(response) toast.success("You Successfully Logged In !", {
+          position: "top-left"
+        }), router.push("/")
 
 
       } 
       
     } catch (error) {
-      console.log(error)
+      toast.error("Invalid credentials. Please check the email and password.", {
+        position: "top-left"
+      });
+      
+
     } finally {
       setIsLoading(false)
     }
@@ -96,23 +109,7 @@ const AuthForm = ({ type }: {type: string}) => {
                 </h1>
             </Link>
 
-            <div className='flex flex-col gap-1 md:gap-3'>
-              <h1 className='text-24 lg:text-36 font-semibold text-gray-900'>
-                {user? 'Link Account'
-                : type === 'sign-in'
-                   ? 'Sign In'
-                   : "Sign Up"
-                   }
-                <p className='text-16 font-normal text-gray-600'>
-                  {
-                    user
-                    ? 'Link An Account to get started'
-                    : 'Please enter your details'
-                  }
-
-                </p>
-              </h1>
-            </div>
+            
 
       </header>
       {
@@ -179,7 +176,7 @@ const AuthForm = ({ type }: {type: string}) => {
 
                   <FormField
                     control={form.control}
-                    name="Address"
+                    name="address"
                     render={({ field }) => (
                       <div className='form-item'>
                         <FormLabel className='form-label'>

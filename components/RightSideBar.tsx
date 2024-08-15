@@ -11,16 +11,16 @@ const RightSideBar = ({user, transactions, airdrops}: RightSidebarProps) => {
         <div className='profile'>
           <div className='profile-img'>
             <span className='text-5xl font-bold text-blue-500'>
-              {user.name[0]}
+              {user?.name[0]}
               
             </span>
           </div>
           <div className='profile-details'>
             <h1 className='profile-name'>
-              {user.name} 
+              {user?.name} 
             </h1>
             <p className='profile-email'>
-              {user.email}
+              {user?.email}
             </p>
           </div>
         </div>
@@ -49,7 +49,7 @@ const RightSideBar = ({user, transactions, airdrops}: RightSidebarProps) => {
             <AirdropCard 
              key={airdrops[0].$id}
              account={airdrops[0]}
-             userName={`${user.name}`}
+             userName={`${user?.name}`}
              showBalance={false}
             /> 
             </div>
@@ -58,7 +58,7 @@ const RightSideBar = ({user, transactions, airdrops}: RightSidebarProps) => {
                 <AirdropCard 
                 key={airdrops[1].$id}
                 account={airdrops[1]}
-                userName={`${user.name}`}
+                userName={`${user?.name}`}
                 showBalance={false}
                 /> 
               </div>
