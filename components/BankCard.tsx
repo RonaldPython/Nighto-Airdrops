@@ -1,69 +1,297 @@
+"use client";
+
 import { formatAmount } from '@/lib/utils'
 import Image from 'next/image'
 import Link from 'next/link'
-import React from 'react'
+import React, { ChangeEvent, useState } from 'react'
 import Copy from './Copy'
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"
+import { UpdateAirdropInfo } from '@/lib/actions/user.actions';
+import { Loader2 } from "lucide-react";
 
-const BankCard = ({...data}) => {
+
+
+interface BankCardData {
+  airdropName: string;
+  airdropClaim: number;
+  airdropType: string;
+  airdropStatus: boolean;
+  airdropLink: string;
+  airdropTime: string;
+  airdropInfo: string;
+  airdropId: string
+}
+
+const BankCard = ({...data}: BankCardData) => {
+
+  const [isLoading, setIsLoading] = useState(false);
   const showBalance = true;
 
-  console.log(data);
+  const [inputs, setInputs] = useState({
+    airdropName: data.airdropName,
+    airdropLink: data.airdropLink,
+    airdropInfo: data.airdropInfo,
+    airdropClaim: data.airdropClaim,
+    airdropStatus: data.airdropStatus ? 'Ongoing' : 'Ended',
+    airdropType: data.airdropType,
+  });
+
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { id, value } = e.target;
+    setInputs((prev) => ({
+      ...prev,
+      [id]: value,
+    }));
+  };
+
+  const handleStatusChange = (value: string) => {
+    setInputs((prev) => ({
+      ...prev,
+      airdropStatus: value === 'Ongoing',
+    }));
+  };
+
+  const handleTypeChange = (value: string) => {
+    setInputs((prev) => ({
+      ...prev,
+      airdropType: value,
+    }));
+  };
+
+  const handleSubmit = async () => {
+    setIsLoading(true)
+    console.log("Inputs:", inputs);
+    
+      try {
+        const updatedData = {
+          airdropName: inputs.airdropName,
+          airdropLink: inputs.airdropLink,
+          dailyActivity: inputs.airdropInfo,
+          airdropType: inputs.airdropType,
+          airdropStatus: inputs.airdropStatus === 'Ongoing',
+          AirdropClaim: parseFloat(inputs.airdropClaim),
+        };
+  
+        await UpdateAirdropInfo(data.airdropId, updatedData);
+        console.log("Airdrop updated successfully");
+  
+      } catch (error) {
+        console.error("Failed to update airdrop:", error);
+      } finally {
+        setIsLoading(false)
+      }
+    };
+    // Handle the inputs values here (e.g., send to an API, update state elsewhere, etc.)
+
+
   return (
-    <div className="flex flex-col">
-      <Link href={`/transaction-history/?id=1000}`} className="bank-card">
-        <div className="bank-card_content">
-          <div>
-            <h1 className="text-16 font-semibold text-white">
-              Anass Othman
-            </h1>
-            <p className="font-ibm-plex-serif font-black text-white">
-              {formatAmount(100)}
-            </p>
+    <HoverCard>
+      <div className="flex flex-col">
+        <div className="relative flex h-[190px] justify-between rounded-[20px] border border-white bg-violet-800 shadow-creditCard backdrop-blur-[6px]">
+          <div className="relative z-10 flex flex-col justify-between rounded-l-[20px] px-5 pb-4 pt-5">
+            <div>
+              <HoverCardTrigger>
+                <h1 className="text-16 font-semibold text-white">
+                  {data.airdropName}
+                </h1>
+              </HoverCardTrigger>
+
+              <HoverCardContent className='bg-slate-300 p-4 rounded-lg shadow-md w-80 max-h-96 overflow-y-auto'>
+                <div className="text-black">
+                  <p className="text-sm font-bold">Airdrop Name: <span className="font-normal">{data.airdropName}</span></p>
+                  <p className="text-sm font-bold">Claimed Amount: <span className="font-normal">{formatAmount(data.airdropClaim)}</span></p>
+                  <p className="text-sm font-bold">Airdrop Type: <span className="font-normal">{data.airdropType}</span></p>
+                  <p className="text-sm font-bold">Status: <span className="font-normal">{data.airdropStatus ? 'Ongoing' : 'Ended'}</span></p>
+                  <p className="text-sm font-bold">Airdrop Link: <span className="font-normal">
+                    <Link href={data.airdropLink} className="text-blue-500 underline">
+                      {data.airdropLink}
+                    </Link>
+                  </span></p>
+                  <p className="text-sm font-bold">Time: <span className="font-normal">{new Date(data.airdropTime).toLocaleString()}</span></p>
+                  <p className="text-sm font-bold">Airdrop Info: <span className="font-normal">{data.airdropInfo}</span></p>
+                </div>
+              </HoverCardContent>
+
+              <p className="font-ibm-plex-serif font-black text-white">
+                {formatAmount(data.airdropClaim)}
+              </p>
+            </div>
+
+            <article className="flex flex-col gap-2">
+              <div className="flex justify-between">
+                <h1 className="text-12 font-semibold text-white">
+                  {data.airdropType}
+                </h1>
+                <h2 className="text-12 font-semibold text-white">
+                  {data.airdropStatus ? 'Ongoing' : 'Ended'}
+                </h2>
+              </div>
+              <p className="text-14 font-semibold tracking-[1.1px] text-white overflow-hidden text-ellipsis whitespace-nowrap max-w-[180px]">
+                {data.airdropLink}
+              </p>
+            </article>
           </div>
 
-          <article className="flex flex-col gap-2">
-            <div className="flex justify-between">
-              <h1 className="text-12 font-semibold text-white">
-                dogpack404
-              </h1>
-              <h2 className="text-12 font-semibold text-white">
-              ●● / ●●
-              </h2>
-            </div>
-            <p className="text-14 font-semibold tracking-[1.1px] text-white">
-              ●●●● ●●●● ●●●● <span className="text-16">4575</span>
-            </p>
-          </article>
+          <div className="flex h-full w-full flex-col items-end justify-between rounded-r-[20px] py-5 pr-5 relative">
+            <Popover>
+              <PopoverTrigger asChild> 
+                <button 
+                  className="bg-white text-violet-800 rounded-full p-2 shadow-md hover:bg-gray-100 transition duration-200 ease-in-out absolute top-2 left-2 z-10 flex items-center justify-center"
+                  aria-label="Edit"
+                >
+                  <svg 
+                    className="feather feather-edit" 
+                    fill="none" 
+                    height="24" 
+                    stroke="currentColor" 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round" 
+                    strokeWidth="2" 
+                    viewBox="0 0 24 24" 
+                    width="24" 
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                  </svg>
+                </button>
+              </PopoverTrigger>
+              <PopoverContent className="w-80 bg-slate-300">
+                <div className="grid gap-4">
+                  <div className="space-y-2">
+                    <h4 className="font-medium leading-none">Edit Airdrop Details</h4>
+                    <p className="text-sm text-muted-foreground">
+                      Update the details for the airdrop.
+                    </p>
+                  </div>
+                  <div className="grid gap-4">
+                    <div className="grid grid-cols-3 items-center gap-4">
+                      <Label htmlFor="airdropName">Airdrop Name</Label>
+                      <Input
+                        id="airdropName"
+                        value={inputs.airdropName}
+                        onChange={handleInputChange}
+                        className="col-span-2 h-8"
+                      />
+                    </div>
+                    <div className="grid grid-cols-3 items-center gap-4">
+                      <Label htmlFor="airdropLink">Airdrop Link</Label>
+                      <Input
+                        id="airdropLink"
+                        value={inputs.airdropLink}
+                        onChange={handleInputChange}
+                        className="col-span-2 h-8"
+                      />
+                    </div>
+                    <div className="grid grid-cols-3 items-center gap-4">
+                      <Label htmlFor="airdropClaim">Claimed Amount</Label>
+                      <Input
+                        id="airdropClaim"
+                        type="number"
+                        value={inputs.airdropClaim}
+                        onChange={handleInputChange}
+                        className="col-span-2 h-8"
+                      />
+                    </div>
+                    <div className="grid grid-cols-3 items-center gap-4">
+                      <Label htmlFor="airdropInfo">Airdrop Info</Label>
+                      <textarea
+                        id="airdropInfo"
+                        value={inputs.airdropInfo}
+                        onChange={handleInputChange}
+                        className="col-span-2 h-24 p-2 border rounded-md"
+                      />
+                    </div>
+                    <div className="grid grid-cols-3 items-center gap-4">
+                      <Label htmlFor="airdropType">Airdrop Type</Label>
+                      <Select
+                        id="airdropType"
+                        value={inputs.airdropType}
+                        onValueChange={handleTypeChange}
+                        className="col-span-2 "
+                      >
+                        <SelectTrigger className="h-8 w-full col-span-2">
+                          <SelectValue placeholder="Select Type" />
+                        </SelectTrigger>
+                        <SelectContent className='bg-slate-300'>
+                          <SelectItem value="telegram">Telegram</SelectItem>
+                          <SelectItem value="website">Website</SelectItem>
+                          <SelectItem value="testNet">TestNet</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="grid grid-cols-3 items-center gap-4">
+                      <Label htmlFor="airdropStatus">Airdrop Status</Label>
+                      <Select
+                        id="airdropStatus"
+                        value={inputs.airdropStatus ? 'Ongoing' : 'Ended'}
+                        onValueChange={handleStatusChange}
+                        className="col-span-2"
+                      >
+                        <SelectTrigger className="h-8 w-full col-span-2">
+                          <SelectValue placeholder="Select Status" />
+                        </SelectTrigger>
+                        <SelectContent className='bg-slate-300'>
+                          <SelectItem value="Ongoing">Ongoing</SelectItem>
+                          <SelectItem value="Ended">Ended</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <Button onClick={handleSubmit} disabled={isLoading} className="mt-4 bg-cyan-500">
+                      {isLoading ? (
+                        <>
+                          <Loader2 size={20} className="animate-spin" /> &nbsp; Sending...
+                        </>
+                      ) : (
+                        "Register Airdrops"
+                      )}
+                    </Button>
+                  </div>
+                </div>
+              </PopoverContent>
+            </Popover>
+            <Image 
+              src="/icons/Paypass.svg"
+              width={20}
+              height={24}
+              alt="pay"
+            />
+            <Image 
+              src="/icons/logo.svg"
+              width={45}
+              height={32}
+              alt="logo"
+              className="ml-5 text-white"
+            />
+          </div>
+
+          <Image 
+            src="/icons/lines.png"
+            width={316}
+            height={190}
+            alt="lines"
+            className="absolute top-0 left-0"
+          />
         </div>
 
-        <div className="bank-card_icon">
-          <Image 
-            src="/icons/Paypass.svg"
-            width={20}
-            height={24}
-            alt="pay"
-          />
-          <Image 
-            src="/icons/mastercard.svg"
-            width={45}
-            height={32}
-            alt="mastercard"
-            className="ml-5"
-          />
-        </div>
-
-        <Image 
-          src="/icons/lines.png"
-          width={316}
-          height={190}
-          alt="lines"
-          className="absolute top-0 left-0"
-        />
-      </Link>
-
-      {showBalance && <Copy title="2555" />}
-    </div>
+        {showBalance && <Copy title={data.airdropLink} />}
+      </div>
+    </HoverCard>
   )
 }
 
 export default BankCard
+

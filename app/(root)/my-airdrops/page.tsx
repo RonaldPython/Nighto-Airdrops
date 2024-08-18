@@ -1,29 +1,38 @@
 import BankCard from '@/components/BankCard';
 import HeaderBox from '@/components/HeaderBox'
 import { getLoggedInUser } from '@/lib/actions/user.actions';
+import { GetAirdropsInfo } from '@/lib/actions/user.actions';
 import React from 'react'
 
 const MyBanks = async () => {
   const loggedIn = await getLoggedInUser();
-
+  const airdrops = await GetAirdropsInfo();
 
   return (
     <section className='flex'>
       <div className="my-banks">
         <HeaderBox 
-          title="My Bank Accounts"
-          subtext="Effortlessly manage your banking activites."
+          title="My Airdrops"
+          subtext="Effortlessly manage your airdrops activities."
         />
 
         <div className="space-y-4">
-          <h2 className="header-2">
-            Your cards
-          </h2>
+          
           <div className="flex flex-wrap gap-6">
-             
+            {airdrops.documents.map((airdrop) => (
+              
               <BankCard 
-                
+                key={airdrop.$id}
+                airdropId={airdrop.$id}
+                airdropName={airdrop.airdropName}
+                airdropClaim={airdrop.AirdropClaim}
+                airdropType={airdrop.airdropType}
+                airdropStatus={airdrop.airdropStatus}
+                airdropLink={airdrop.airdropLink}
+                airdropInfo={airdrop.dailyActivity}
+                airdropTime={airdrop.airdropTime}
               />
+            ))}
             
           </div>
         </div>
@@ -32,4 +41,4 @@ const MyBanks = async () => {
   )
 }
 
-export default MyBanks
+export default MyBanks;

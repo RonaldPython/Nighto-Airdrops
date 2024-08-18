@@ -42,7 +42,8 @@ const formSchema = z.object({
   airdropType: z.string(),
   airdropTime: z.date(),
   airdropLink: z.string().url("Invalid URL"),
-  airdropStatus: z.boolean()
+  airdropStatus: z.boolean(),
+  airdropClaim: z.number()
 });
 
 
@@ -62,7 +63,8 @@ const PaymentTransferForm = ({ type }: {type: string}) => {
         airdropName: "",
         airdropType: "",
         airdropLink: "",
-        airdropStatus: true
+        airdropStatus: true,
+        airdropClaim: 0.00
       },
     });
   
@@ -90,7 +92,7 @@ const PaymentTransferForm = ({ type }: {type: string}) => {
 
         if(newAirdrop) toast.success("You Successfully Registered An Airdrop !", {
           position: "top-left"
-        }), router.push("/transaction-history")
+        }), router.push("/my-airdrops")
 
       }  catch (error) {
         console.log(error)
@@ -154,7 +156,7 @@ const PaymentTransferForm = ({ type }: {type: string}) => {
               <div className="payment-transfer_form-item pb-6 pt-5">
                 <div className="payment-transfer_form-content">
                   <FormLabel className="text-14 font-medium text-gray-700">
-                    Airdrop Daily Activity 
+                    Airdrop Info
                   </FormLabel>
                   <FormDescription className="text-12 font-normal text-gray-600">
                     Please provide any additional information or instructions
@@ -164,7 +166,7 @@ const PaymentTransferForm = ({ type }: {type: string}) => {
                 <div className="flex w-full flex-col">
                   <FormControl>
                     <Textarea
-                      placeholder="Write a daily activity for the airdrop here"
+                      placeholder="Write additional information about the airdrop"
                       className="input-class"
                       {...field}
                     />
@@ -252,7 +254,7 @@ const PaymentTransferForm = ({ type }: {type: string}) => {
                 <Loader2 size={20} className="animate-spin" /> &nbsp; Sending...
               </>
             ) : (
-              "Transfer Funds"
+              "Register Airdrops"
             )}
           </Button>
         </div>

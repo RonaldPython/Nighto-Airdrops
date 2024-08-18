@@ -175,3 +175,51 @@ export async function RegisterAirdrop({ ...data }) {
     throw error
   }
 }
+
+export async function GetAirdropsInfo() {
+  const { database } = await createAdminClient();
+
+  try {
+
+    const { account } = await createSessionClient();
+    const user = await account.get();
+
+    const u = parseStringify(user)
+
+    const userAirdrops = await database.listDocuments(
+      DATABASE_ID!,
+      AIRDROP_COLLECTION_ID!,[
+        Query.equal('userId', u.$id)
+      ])
+
+    userAirdrops.documents = userAirdrops.documents.map((doc) => ({
+        ...doc,
+        AirdropClaim: parseFloat(doc.AirdropClaim),
+      }));
+    
+    return userAirdrops
+
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function UpdateAirdropInfo(airdropId: string, updatedData: any) {
+  const { database } = await createAdminClient();
+
+  try {
+    
+    // Update the airdrop with the new data
+    const updatedAirdrop = await database.updateDocument(
+      DATABASE_ID!,
+      AIRDROP_COLLECTION_ID!,
+      airdropId,
+      updatedData
+    );
+
+    return updatedAirdrop;
+
+  } catch (error) {
+    throw error;
+  }
+}

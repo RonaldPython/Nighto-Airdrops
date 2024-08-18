@@ -50,7 +50,7 @@ const RightSideBar = ({user, transactions, airdrops}: RightSidebarProps) => {
              key={airdrops[0].$id}
              account={airdrops[0]}
              userName={`${user?.name}`}
-             showBalance={false}
+             showBalance={true}
             /> 
             </div>
             {airdrops[1] && (
@@ -59,7 +59,7 @@ const RightSideBar = ({user, transactions, airdrops}: RightSidebarProps) => {
                 key={airdrops[1].$id}
                 account={airdrops[1]}
                 userName={`${user?.name}`}
-                showBalance={false}
+                showBalance={true}
                 /> 
               </div>
             )}
