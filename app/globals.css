@@ -234,22 +234,6 @@
     @apply gap-[18px] flex p-4 transition-all border bg-blue-25 border-transparent;
   }
 
- 
-  
-
-  
-
-  
-  /* Text overflow handling */
-  .bank-card_content-airdrops h1, .bank-card_content-airdrops p {
-    @apply overflow-hidden text-ellipsis whitespace-nowrap;
-  }
-  
-  .bank-card_content-airdrops p {
-    @apply max-w-[180px];
-  }
-  
-
   /* Category Badge */
   .category-badge {
     @apply flex-center truncate w-fit gap-1 rounded-2xl border-[1.5px] py-[2px] pl-1.5 pr-2;

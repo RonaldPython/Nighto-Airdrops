@@ -20,8 +20,13 @@ import {
 } from "@/components/ui/popover"
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"
 import { UpdateAirdropInfo } from '@/lib/actions/user.actions';
+import { DeleteAirdrop } from '@/lib/actions/user.actions';
+import { UpdateUserBalance } from '@/lib/actions/user.actions';
 import { Loader2 } from "lucide-react";
-
+import {
+  IconBrandBumble,
+  IconSquareRoundedX
+} from "@tabler/icons-react";
 
 
 interface BankCardData {
@@ -35,10 +40,24 @@ interface BankCardData {
   airdropId: string
 }
 
+
+
 const BankCard = ({...data}: BankCardData) => {
 
   const [isLoading, setIsLoading] = useState(false);
   const showBalance = true;
+
+  const [isOpen, setIsOpen] = useState(false)
+
+  const handleClose = () => setIsOpen(false)
+  const handleOpen = () => setIsOpen(true)
+
+  const socialsData = {
+    telegram: "",
+    discord: "",
+    twitter: "",
+    galxe: ""
+  }
 
   const [inputs, setInputs] = useState({
     airdropName: data.airdropName,
@@ -47,6 +66,13 @@ const BankCard = ({...data}: BankCardData) => {
     airdropClaim: data.airdropClaim,
     airdropStatus: data.airdropStatus ? 'Ongoing' : 'Ended',
     airdropType: data.airdropType,
+  });
+
+  const [inputs_socials, setInputsSocials] = useState({
+    Telegram: socialsData.telegram,
+    Discord: socialsData.discord,
+    Twitter: socialsData.twitter,
+    Glaxe: socialsData.galxe
   });
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -71,6 +97,31 @@ const BankCard = ({...data}: BankCardData) => {
     }));
   };
 
+  const handleInputChangeSocial = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { id, value } = e.target;
+    setInputsSocials((prev) => ({
+      ...prev,
+      [id]: value,
+    }));
+  };
+  
+
+  const handleDelete = async () => {
+    setIsLoading(true)
+
+    try {
+      const res = await DeleteAirdrop(data.airdropId) 
+
+      console.log(res)
+    } catch (error) {
+      console.log(error)
+      
+    } finally {
+      setIsLoading(false)
+    }
+
+  }
+
   const handleSubmit = async () => {
     setIsLoading(true)
     console.log("Inputs:", inputs);
@@ -86,6 +137,7 @@ const BankCard = ({...data}: BankCardData) => {
         };
   
         await UpdateAirdropInfo(data.airdropId, updatedData);
+        await UpdateUserBalance(parseFloat(inputs.airdropClaim))
         console.log("Airdrop updated successfully");
   
       } catch (error) {
@@ -96,6 +148,31 @@ const BankCard = ({...data}: BankCardData) => {
     };
     // Handle the inputs values here (e.g., send to an API, update state elsewhere, etc.)
 
+
+  const handleSubmitSocials = async () => {
+    setIsLoading(true)
+    console.log("Inputs:", inputs_socials);
+    
+    try {
+      
+      const updatedDataSocial = {
+        Telegram: inputs_socials.Telegram,
+        Discord: inputs_socials.Discord,
+        Twitter: inputs_socials.Twitter,
+        Glaxe: inputs_socials.Glaxe,
+        SocialsEnabled: true
+      };
+
+      await UpdateAirdropInfo(data.airdropId, updatedDataSocial);
+      console.log("Airdrop updated successfully");
+
+    } catch (error) {
+      console.error("Failed to update airdrop:", error);
+      
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
   return (
     <HoverCard>
@@ -149,7 +226,7 @@ const BankCard = ({...data}: BankCardData) => {
             <Popover>
               <PopoverTrigger asChild> 
                 <button 
-                  className="bg-white text-violet-800 rounded-full p-2 shadow-md hover:bg-gray-100 transition duration-200 ease-in-out absolute top-2 left-2 z-10 flex items-center justify-center"
+                  className="bg-transparent text-white rounded-full p-2 shadow-md hover:bg-gray-400 transition duration-200 ease-in-out absolute top-2 left-0 z-10 flex items-center justify-center"
                   aria-label="Edit"
                 >
                   <svg 
@@ -263,6 +340,127 @@ const BankCard = ({...data}: BankCardData) => {
                 </div>
               </PopoverContent>
             </Popover>
+            
+          
+            <Popover>
+
+              <PopoverTrigger asChild>
+                <button 
+                      className=" bg-transparent text-white rounded-full shadow-md hover:bg-gray-400 transition duration-200 ease-in-out absolute top-2 right-24 z-10 flex items-center justify-center"
+                      aria-label="Socials"
+                    >
+                    <IconBrandBumble className="mt-2 text-white dark:text-neutral-300 size-7" />
+                    
+                  </button>
+
+              </PopoverTrigger> 
+
+              <PopoverContent className="w-80 bg-slate-300">
+                <div className="grid gap-4">
+                  <div className="space-y-2">
+                    <h4 className="font-medium leading-none">Edit Airdrop Socials</h4>
+                    <p className="text-sm text-muted-foreground">
+                      Update the socials for the airdrop.
+                    </p>
+                  </div>
+                  <div className="grid gap-4">
+
+                    <div className="grid grid-cols-3 items-center gap-4">
+                      <Label htmlFor="Telegram-label">Telegram</Label>
+                      <Input
+                        id="Telegram"
+                        value={inputs_socials.Telegram}
+                        onChange={handleInputChangeSocial}
+                        className="col-span-2 h-8"
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-3 items-center gap-4">
+                      <Label htmlFor="DiscordSocial">Discord</Label>
+                      <Input
+                        id="Discord"
+                        value={inputs_socials.Discord}
+                        onChange={handleInputChangeSocial}
+                        className="col-span-2 h-8"
+                      />
+                    </div>
+                    <div className="grid grid-cols-3 items-center gap-4">
+                      <Label htmlFor="TwitterSocial">Twitter</Label>
+                      <Input
+                        id="Twitter"
+                        value={inputs_socials.Twitter}
+                        onChange={handleInputChangeSocial}
+                        className="col-span-2 h-8"
+                      />
+                    </div>
+                    <div className="grid grid-cols-3 items-center gap-4">
+                      <Label htmlFor="GlaxeSocial">Galxe</Label>
+                      <Input
+                        id="Glaxe"
+                        value={inputs_socials.Glaxe}
+                        onChange={handleInputChangeSocial}
+                        className="col-span-2 h-8 p-2 border rounded-md"
+                      />
+                    </div>
+                    
+                    
+                    <Button onClick={handleSubmitSocials} disabled={isLoading} className="mt-4 bg-cyan-500">
+                      {isLoading ? (
+                        <>
+                          <Loader2 size={20} className="animate-spin" /> &nbsp; Sending...
+                        </>
+                      ) : (
+                        "Register Socials"
+                      )}
+                    </Button>
+                  </div>
+                </div>
+              </PopoverContent>
+            </Popover>
+            
+            <Popover open={isOpen} onOpenChange={setIsOpen}>
+              <PopoverTrigger asChild>
+                  <button
+                    className="bg-transparent text-white rounded-full shadow-md hover:bg-gray-400 transition duration-200 ease-in-out absolute top-3.5 right-36 z-10 flex items-center justify-center"
+                    aria-label="Delete"
+                  >
+                    <IconSquareRoundedX className=" text-white dark:text-neutral-300  size-8" />
+                  </button>
+                </PopoverTrigger>
+
+                <PopoverContent className="w-80 bg-slate-300 p-4 rounded-lg shadow-md">
+                  <div className="space-y-4">
+                    <h4 className="font-medium leading-none">Confirm Deletion</h4>
+                    <p className="text-sm text-muted-foreground">
+                      Are you sure you want to delete this airdrop? This action cannot be undone.
+                    </p>
+                    <div className="flex gap-4">
+                      <Button
+                        onClick={() => {
+                          handleDelete()
+                          handleClose()
+                        }}
+                        className="bg-red-500 hover:bg-red-600"
+                      >
+                        {isLoading ? (
+                        <>
+                          <Loader2 size={20} className="animate-spin" /> &nbsp; Sending...
+                        </>
+                      ) : (
+                        "Delete"
+                      )}
+                      </Button>
+                      <Button
+                        className="bg-gray-500 hover:bg-gray-600"
+                        onClick={handleClose}
+                      >
+                        Cancel
+                      </Button>
+                    </div>
+                  </div>
+                </PopoverContent>
+            </Popover>
+
             <Image 
               src="/icons/Paypass.svg"
               width={20}
@@ -287,7 +485,7 @@ const BankCard = ({...data}: BankCardData) => {
           />
         </div>
 
-        {showBalance && <Copy title={data.airdropLink} />}
+        {showBalance && <Copy title={data.airdropId} />}
       </div>
     </HoverCard>
   )

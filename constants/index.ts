@@ -11,8 +11,8 @@ export const sidebarLinks = [
   },
   {
     imgURL: "/icons/transaction.svg",
-    route: "/transaction-history",
-    label: "Transaction History",
+    route: "/search",
+    label: "Search Airdrops",
   },
   {
     imgURL: "/icons/money-send.svg",

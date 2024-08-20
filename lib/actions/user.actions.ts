@@ -99,7 +99,11 @@ export async function getLoggedInUser() {
     const { account } = await createSessionClient();
     const user = await account.get();
 
+    console.log(user)
+    
     return parseStringify(user)
+
+    
   } catch (error) {
     return null;
   }
@@ -196,8 +200,12 @@ export async function GetAirdropsInfo() {
         ...doc,
         AirdropClaim: parseFloat(doc.AirdropClaim),
       }));
+
+    
     
     return userAirdrops
+
+  
 
   } catch (error) {
     throw error
@@ -221,5 +229,78 @@ export async function UpdateAirdropInfo(airdropId: string, updatedData: any) {
 
   } catch (error) {
     throw error;
+  }
+}
+
+export async function GetAirdropInfoSearch(airdropId: string) {
+  const { database } = await createAdminClient();
+
+  try {
+    const Airdrop = await database.getDocument(
+      DATABASE_ID!,
+      AIRDROP_COLLECTION_ID!,
+      airdropId,
+    );
+
+
+    return Airdrop
+
+  } catch (error) {
+    throw error;
+  }
+} 
+
+
+export async function UpdateUserBalance(amount: number) {
+  const { database } = await createAdminClient();
+
+  
+  const { account } = await createSessionClient();
+  const user = await account.get();
+
+  const u = parseStringify(user)
+  
+
+  try {
+    const ub = await GetUserBalance()
+
+    console.log(ub)
+
+    const data = {
+      balance: parseFloat(ub.balance) + amount
+    }
+
+    console.log(data)
+
+
+    const updatedAirdrop = await database.updateDocument(
+      DATABASE_ID!,
+      USER_COLLECTION_ID!,
+      u.$id,
+      data
+    );
+
+    return updatedAirdrop
+
+  } catch (error) {
+    throw error
+  }
+}
+
+
+export async function DeleteAirdrop(airdropId: string) {
+  const { database } = await createAdminClient();
+
+  try {
+    const deleted = await database.deleteDocument(
+      DATABASE_ID!,
+      AIRDROP_COLLECTION_ID!,
+      airdropId,
+    )
+
+    return deleted
+
+  } catch (error) {
+    throw error
   }
 }

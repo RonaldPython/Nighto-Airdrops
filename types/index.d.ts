@@ -216,7 +216,7 @@ declare interface FooterProps {
 declare interface RightSidebarProps {
   user: User;
   transactions: Transaction[];
-  airdrops: Airdrop[] & Account[];
+  airdrops: Array
 }
 
 declare interface SiderbarProps {

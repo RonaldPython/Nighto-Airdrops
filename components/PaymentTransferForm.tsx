@@ -25,14 +25,13 @@ import { Textarea } from "./ui/textarea";
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue
 } from "@/components/ui/select";
 import { RegisterAirdrop } from "@/lib/actions/user.actions"
 import { toast } from 'react-toastify';
+
 
 
 
@@ -246,6 +245,10 @@ const PaymentTransferForm = ({ type }: {type: string}) => {
             </FormItem>
           )}
         />
+
+
+        
+
 
         <div className="payment-transfer_btn-box">
           <Button type="submit" className="payment-transfer_btn">

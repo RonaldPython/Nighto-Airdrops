@@ -3,7 +3,7 @@ import Link from 'next/link'
 import React from 'react'
 import AirdropCard from './AirdropCard'
 
-const RightSideBar = ({user, transactions, airdrops}: RightSidebarProps) => {
+const RightSideBar = ({ user, airdrops }: RightSidebarProps) => {
   return (
     <aside className='right-sidebar'>
       <section className='flex flex-col pb-8'>
@@ -12,12 +12,11 @@ const RightSideBar = ({user, transactions, airdrops}: RightSidebarProps) => {
           <div className='profile-img'>
             <span className='text-5xl font-bold text-blue-500'>
               {user?.name[0]}
-              
             </span>
           </div>
           <div className='profile-details'>
             <h1 className='profile-name'>
-              {user?.name} 
+              {user?.name}
             </h1>
             <p className='profile-email'>
               {user?.email}
@@ -28,43 +27,34 @@ const RightSideBar = ({user, transactions, airdrops}: RightSidebarProps) => {
 
       <section className='banks'>
         <div className='flex w-full justify-between'>
-            <h2 className='header-2'>My Airdrops</h2>     
-            <Link href="/" className='flex gap-2'>
+          <h2 className='header-2'>My Airdrops</h2>
+          <Link href="/register-airdrop" className='flex gap-2'>
             <Image 
-            src="/icons/plus.svg"
-            width={20}
-            height={20}
-            alt='plus'
+              src="/icons/plus.svg"
+              width={20}
+              height={20}
+              alt='plus'
             />
-
             <h2 className='text-14 font-semibold text-gray-600'>
               Add Airdrop
             </h2>
-            </Link>
+          </Link>
         </div>
 
-        {airdrops?.length > 0 && (
-          <div className='relative flex flex-1 flex-col items-center justify-center gap-5 '>
-            <div className='relative z-10'>
-            <AirdropCard 
-             key={airdrops[0].$id}
-             account={airdrops[0]}
-             userName={`${user?.name}`}
-             showBalance={true}
-            /> 
-            </div>
-            {airdrops[1] && (
-              <div className='absolute right-0 top-8 z-0 w-[90%]'>
-                <AirdropCard 
-                key={airdrops[1].$id}
-                account={airdrops[1]}
-                userName={`${user?.name}`}
-                showBalance={true}
-                /> 
-              </div>
-            )}
+        {airdrops.total > 0 && (
+          <div className='relative flex flex-1 flex-col items-center justify-center gap-5'>
+            {airdrops.documents.slice(0, 2).map((airdrop: any, index: number) => (
+              <AirdropCard 
+                key={airdrop.$id}
+                airdropName={airdrop.airdropName}
+                airdropType={airdrop.airdropType}
+                airdropStatus={airdrop.airdropStatus}
+                airdropLink={airdrop.airdropLink}
+                airdropClaim={airdrop.AirdropClaim}
+              />
+            ))}
           </div>
-        )} 
+        )}
       </section>
     </aside>
   )

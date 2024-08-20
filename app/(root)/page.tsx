@@ -1,7 +1,7 @@
 import HeaderBox from '@/components/HeaderBox'
 import RightSideBar from '@/components/RightSideBar';
 import TotalCompleated from '@/components/TotalCompleted';
-import { getLoggedInUser, GetUserBalance } from '@/lib/actions/user.actions';
+import { GetAirdropsInfo, getLoggedInUser, GetUserBalance } from '@/lib/actions/user.actions';
 
 
 
@@ -12,6 +12,8 @@ const Home = async () => {
 
 
   const ui = await GetUserBalance()
+
+  const airdropsCurrent = await GetAirdropsInfo()
 
   return (
     <section className='home'>
@@ -32,14 +34,14 @@ const Home = async () => {
 
         </header>
         
-        RECENT TRANSACTIONS
+        COMING SOON....
 
       </div>
       
       <RightSideBar
         user={loggedIn}
         transactions={[]}
-        airdrops={[{currentBalance: 0}, {currentBalance:0}]}
+        airdrops={airdropsCurrent}
       />
     </section>
   )
