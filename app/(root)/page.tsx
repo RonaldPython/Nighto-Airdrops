@@ -4,7 +4,6 @@ import TotalCompleated from '@/components/TotalCompleted';
 import { GetAirdropsInfo, getLoggedInUser, GetUserBalance } from '@/lib/actions/user.actions';
 
 
-
 const Home = async () => {
 
 
@@ -14,6 +13,10 @@ const Home = async () => {
   const ui = await GetUserBalance()
 
   const airdropsCurrent = await GetAirdropsInfo()
+
+  const airdropNames = airdropsCurrent.documents.map(doc => doc.airdropName);
+  const airdropClaims = airdropsCurrent.documents.map(doc => doc.AirdropClaim);
+  
 
   return (
     <section className='home'>
@@ -27,14 +30,15 @@ const Home = async () => {
           />
 
           <TotalCompleated
-            UniqueAirdrops={[]}
+            names={airdropNames}
+            claims={airdropClaims}
             airdrops={1}
             TotalCurrentBalance={ui!.balance}
           />
 
         </header>
         
-        COMING SOON....
+        COMING SOON...
 
       </div>
       

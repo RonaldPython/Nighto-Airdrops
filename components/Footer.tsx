@@ -2,19 +2,23 @@ import { logoutAccount } from '@/lib/actions/user.actions'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import React from 'react'
-import { toast } from 'react-toastify';
+import { Toaster, toast } from 'sonner'
+
 
 
 const Footer = ({ user, type = 'desktop'}: FooterProps) => {
   const router = useRouter()
 
-  const handleLogout = async ( ) => {
-    const loggedOut = await logoutAccount()
-
-    if(loggedOut) toast.success("You Successfully Logged Out !", {
-      position: "top-left"
-    }), router.push("/sign-in")
-  }
+  const handleLogout = async () => {
+    const loggedOut = await logoutAccount();
+  
+    if (loggedOut) {
+      toast.success("You Successfully Logged Out!");
+      await new Promise(resolve => setTimeout(resolve, 500)); // Short delay before navigation
+      router.push("/sign-in");
+    }
+  };
+  
 
   return (
     <footer className='footer'>
@@ -33,10 +37,14 @@ const Footer = ({ user, type = 'desktop'}: FooterProps) => {
         </p>
       </div>
 
+      
+
+
       <div className='footer_image' onClick={handleLogout}>
         <Image 
         src="icons/logout.svg" fill alt='jsm'
         />
+        <Toaster position="top-left" richColors />
       </div>
     </footer>
   )

@@ -203,7 +203,8 @@ declare interface BankTabItemProps {
 }
 
 declare interface TotalCompletedProps {
-  UniqueAirdrops: Account[];
+  names: any;
+  claims: any;
   airdrops: number;
   TotalCurrentBalance: number;
 }
@@ -216,7 +217,7 @@ declare interface FooterProps {
 declare interface RightSidebarProps {
   user: User;
   transactions: Transaction[];
-  airdrops: Array
+  airdrops: Airdrop[] & Account[];
 }
 
 declare interface SiderbarProps {
@@ -248,7 +249,8 @@ declare interface CategoryProps {
 }
 
 declare interface DoughnutChartProps {
-  accounts: Account[];
+  names: any;
+  claims: any
 }
 
 declare interface PaymentTransferFormProps {

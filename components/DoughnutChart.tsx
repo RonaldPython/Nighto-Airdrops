@@ -6,17 +6,17 @@ import { Doughnut } from 'react-chartjs-2';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const DoughnutChart = ({accounts}: DoughnutChartProps) => {
+const DoughnutChart = ({claims, names}: DoughnutChartProps) => {
 
   const data = {
     datasets: [
         {
             label: "Airdrops",
-            data: [25,25,100],
+            data: claims,
             backgroundColor: ['#0747b6', '#2265d8', '#2f91fa']
         }
     ],
-    labels: ['Airdrop 1 ', 'Airdrop 2', 'Airdop 3']
+    labels: names
   }
 
 

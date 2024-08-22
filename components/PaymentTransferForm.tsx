@@ -30,13 +30,13 @@ import {
   SelectValue
 } from "@/components/ui/select";
 import { RegisterAirdrop } from "@/lib/actions/user.actions"
-import { toast } from 'react-toastify';
+import { Toaster, toast } from 'sonner'
 
 
 
 
 const formSchema = z.object({
-  airdropName: z.string().max(10, "Invalid name"),
+  airdropName: z.string().max(30, "Invalid name"),
   dailyActivity: z.string().min(4, "Transfer note is too short"),
   airdropType: z.string(),
   airdropTime: z.date(),
@@ -89,16 +89,12 @@ const PaymentTransferForm = ({ type }: {type: string}) => {
 
         console.log(newAirdrop)
 
-        if(newAirdrop) toast.success("You Successfully Registered An Airdrop !", {
-          position: "top-left"
-        }), router.push("/my-airdrops")
+        if(newAirdrop) toast.success("You Successfully Registered An Airdrop !"), router.push("/my-airdrops")
 
       }  catch (error) {
         console.log(error)
 
-        toast.error("SomeThing Went Wrong.", {
-          position: "top-left"
-        });
+        toast.error("SomeThing Went Wrong.");
 
 
       } finally {
@@ -146,6 +142,8 @@ const PaymentTransferForm = ({ type }: {type: string}) => {
             </FormItem>
           )}
         />
+
+        <Toaster position="top-left" richColors />
 
         <FormField
           control={form.control}

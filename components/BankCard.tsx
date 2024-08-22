@@ -27,6 +27,8 @@ import {
   IconBrandBumble,
   IconSquareRoundedX
 } from "@tabler/icons-react";
+import { Toaster, toast } from 'sonner'
+
 
 
 interface BankCardData {
@@ -118,6 +120,7 @@ const BankCard = ({...data}: BankCardData) => {
       
     } finally {
       setIsLoading(false)
+      toast.success("The Airdrop Is Deleted !")
     }
 
   }
@@ -139,6 +142,7 @@ const BankCard = ({...data}: BankCardData) => {
         await UpdateAirdropInfo(data.airdropId, updatedData);
         await UpdateUserBalance(parseFloat(inputs.airdropClaim))
         console.log("Airdrop updated successfully");
+        toast.success("Airdrop updated successfully")
   
       } catch (error) {
         console.error("Failed to update airdrop:", error);
@@ -165,6 +169,7 @@ const BankCard = ({...data}: BankCardData) => {
 
       await UpdateAirdropInfo(data.airdropId, updatedDataSocial);
       console.log("Airdrop updated successfully");
+      toast.success("Airdrop Socials updated successfully")
 
     } catch (error) {
       console.error("Failed to update airdrop:", error);
@@ -206,6 +211,8 @@ const BankCard = ({...data}: BankCardData) => {
                 {formatAmount(data.airdropClaim)}
               </p>
             </div>
+
+            <Toaster position="top-left" richColors />
 
             <article className="flex flex-col gap-2">
               <div className="flex justify-between">
@@ -343,16 +350,13 @@ const BankCard = ({...data}: BankCardData) => {
             
           
             <Popover>
-
               <PopoverTrigger asChild>
                 <button 
-                      className=" bg-transparent text-white rounded-full shadow-md hover:bg-gray-400 transition duration-200 ease-in-out absolute top-2 right-24 z-10 flex items-center justify-center"
-                      aria-label="Socials"
-                    >
-                    <IconBrandBumble className="mt-2 text-white dark:text-neutral-300 size-7" />
-                    
-                  </button>
-
+                  className=" bg-transparent text-white rounded-full shadow-md hover:bg-gray-400 transition duration-200 ease-in-out absolute top-2 right-24 z-10 flex items-center justify-center"
+                  aria-label="Socials"
+                >
+                  <IconBrandBumble className="mt-2 text-white dark:text-neutral-300 size-7" />
+                </button>
               </PopoverTrigger> 
 
               <PopoverContent className="w-80 bg-slate-300">
@@ -364,14 +368,16 @@ const BankCard = ({...data}: BankCardData) => {
                     </p>
                   </div>
                   <div className="grid gap-4">
-
                     <div className="grid grid-cols-3 items-center gap-4">
                       <Label htmlFor="Telegram-label">Telegram</Label>
                       <Input
                         id="Telegram"
+                        type="url"
                         value={inputs_socials.Telegram}
                         onChange={handleInputChangeSocial}
                         className="col-span-2 h-8"
+                        required
+                        placeholder="https://t.me/yourchannel"
                       />
                     </div>
 
@@ -379,31 +385,38 @@ const BankCard = ({...data}: BankCardData) => {
                       <Label htmlFor="DiscordSocial">Discord</Label>
                       <Input
                         id="Discord"
+                        type="url"
                         value={inputs_socials.Discord}
                         onChange={handleInputChangeSocial}
                         className="col-span-2 h-8"
+                        required
+                        placeholder="https://discord.com/invite/yourinvite"
                       />
                     </div>
                     <div className="grid grid-cols-3 items-center gap-4">
                       <Label htmlFor="TwitterSocial">Twitter</Label>
                       <Input
                         id="Twitter"
+                        type="url"
                         value={inputs_socials.Twitter}
                         onChange={handleInputChangeSocial}
                         className="col-span-2 h-8"
+                        required
+                        placeholder="https://twitter.com/yourprofile"
                       />
                     </div>
                     <div className="grid grid-cols-3 items-center gap-4">
                       <Label htmlFor="GlaxeSocial">Galxe</Label>
                       <Input
                         id="Glaxe"
+                        type="url"
                         value={inputs_socials.Glaxe}
                         onChange={handleInputChangeSocial}
-                        className="col-span-2 h-8 p-2 border rounded-md"
+                        className="col-span-2 h-8"
+                        required
+                        placeholder="https://galxe.com/yourprofile"
                       />
                     </div>
-                    
-                    
                     <Button onClick={handleSubmitSocials} disabled={isLoading} className="mt-4 bg-cyan-500">
                       {isLoading ? (
                         <>
@@ -417,6 +430,7 @@ const BankCard = ({...data}: BankCardData) => {
                 </div>
               </PopoverContent>
             </Popover>
+
             
             <Popover open={isOpen} onOpenChange={setIsOpen}>
               <PopoverTrigger asChild>

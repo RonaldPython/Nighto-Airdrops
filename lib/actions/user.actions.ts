@@ -100,7 +100,7 @@ export async function getLoggedInUser() {
     const { account } = await createSessionClient();
     const user = await account.get();
 
-    console.log(user)
+    
     
     return parseStringify(user)
 
@@ -202,7 +202,7 @@ export async function GetAirdropsInfo() {
         AirdropClaim: parseFloat(doc.AirdropClaim),
       }));
 
-    
+      
     
     return userAirdrops
 
@@ -265,13 +265,13 @@ export async function UpdateUserBalance(amount: number) {
   try {
     const ub = await GetUserBalance()
 
-    console.log(ub)
+    
 
     const data = {
       balance: parseFloat(ub.balance) + amount
     }
 
-    console.log(data)
+    
 
 
     const updatedAirdrop = await database.updateDocument(

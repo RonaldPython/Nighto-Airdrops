@@ -2,13 +2,15 @@ import AnimatedCounter from './AnimatedCounter'
 import DoughnutChart from './DoughnutChart'
 
 const TotalCompleted = ({
-  UniqueAirdrops = [], airdrops, TotalCurrentBalance
+  names, claims, airdrops, TotalCurrentBalance
 }: TotalCompletedProps) => {
   return (
     <section className='flex w-full items-center gap-4 rounded-xl border border-gray-200 p-4 shadow-chart sm:gap-6 sm:p-6'>
 
       <div className='total-balance-chart'>
-        <DoughnutChart accounts= {UniqueAirdrops}/>
+        <DoughnutChart names= {names}
+        claims = {claims}
+        />
       </div>
 
       <div className='flex flex-col gap-6'>
