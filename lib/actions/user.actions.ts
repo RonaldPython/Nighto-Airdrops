@@ -11,6 +11,7 @@ const {
   APPWRITE_DATABASE_ID: DATABASE_ID,
   APPWRITE_USER_COLLECTION_ID: USER_COLLECTION_ID,
   APPWRITE_AIRDROP_COLLECTION_ID: AIRDROP_COLLECTION_ID,
+  APPWRITE_STARS_COLLECTION_ID: STARS_COLLECTION_ID
 } = process.env;
 
 
@@ -181,6 +182,8 @@ export async function RegisterAirdrop({ ...data }) {
   }
 }
 
+
+
 export async function GetAirdropsInfo() {
   const { database } = await createAdminClient();
 
@@ -300,6 +303,75 @@ export async function DeleteAirdrop(airdropId: string) {
     )
 
     return deleted
+
+  } catch (error) {
+    throw error
+  }
+}
+
+
+export async function UpdateStarsAirdrop(airdropId: string, data: any) {
+  const { database } = await createAdminClient();
+
+  try {
+    const { account } = await createSessionClient();
+    const user = await account.get();
+
+    const u = parseStringify(user)
+
+    const data_stars = {
+      AirdropStars: data.AirdropStars + 1
+    }
+
+
+    const res = await UpdateAirdropInfo(
+      airdropId,
+      data_stars
+    )
+
+
+    const data_stars_database = {
+      userId: u.$id,
+      Airdrop: airdropId
+    } 
+
+    const res_stars = await database.createDocument(
+      DATABASE_ID!,
+      STARS_COLLECTION_ID!,
+      ID.unique(),
+      data_stars_database
+    )
+
+    return res_stars
+
+  } catch (error) {
+    throw error
+  }
+
+  
+
+
+}
+
+
+export async function SeeUserStar(AirdropId: String) {
+  const { database } = await createAdminClient();
+
+  try {
+    const { account } = await createSessionClient();
+    const user = await account.get();
+
+    const u = parseStringify(user)
+
+    const userStars = await database.listDocuments(
+      DATABASE_ID!,
+      STARS_COLLECTION_ID!,
+      [
+        Query.equal('userId', u.$id),
+        Query.equal('Airdrop', AirdropId)
+      ])
+
+    return userStars
 
   } catch (error) {
     throw error

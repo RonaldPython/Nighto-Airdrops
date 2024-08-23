@@ -1,21 +1,25 @@
-// app/search-results/page.tsx
-
 import { GetAirdropInfoSearch } from '@/lib/actions/user.actions';
 import SearchResults from '@/components/SearchResults';
 import { format } from 'date-fns';
+import { SeeUserStar } from "@/lib/actions/user.actions"
 
 const SearchResultsPage = async ({ params }: { params: { query: string } }) => {
   const { query } = params;
 
   try {
     const airdropData = await GetAirdropInfoSearch(query);
-
-    // Format the date using date-fns
     const formattedAirdropTime = format(new Date(airdropData.airdropTime), "dd/MM/yyyy, hh:mm:ss a");
+
+    const res = await SeeUserStar(query);
+
+    let starr = false;
+    if(res.total > 0) {
+      starr = true;
+    }
 
     return (
       <div className="p-8">
-        <SearchResults data={{ ...airdropData, airdropTime: formattedAirdropTime }} query={query} />
+        <SearchResults data={{ ...airdropData, airdropTime: formattedAirdropTime }} query={query} starr={starr}/>
       </div>
     );
   } catch (error) {
