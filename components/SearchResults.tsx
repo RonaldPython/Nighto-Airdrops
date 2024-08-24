@@ -9,10 +9,7 @@ import { IconBrandDiscord, IconBrandTelegram, IconBrandX, IconStar, IconStarFill
 import { Toaster, toast } from 'sonner'
 import { UpdateStarsAirdrop, SeeUserStar } from "@/lib/actions/user.actions"
 
-
-
 const SearchResults = ({ data, query, starr }: { data: any; query: string, starr: boolean }) => {
-
 
   const [starred, setStarred] = useState(starr);
 
@@ -26,21 +23,15 @@ const SearchResults = ({ data, query, starr }: { data: any; query: string, starr
 
   const handleStarClick = async () => {
     if (!starred) {
-
       try {
         setStarred(true);
-        
-        const res = await UpdateStarsAirdrop(query, data)
-
-        console.log(res)
-
+        const res = await UpdateStarsAirdrop(query, data);
+        console.log(res);
         console.log("hey you stared");
-        
-        toast.success("You Successfully Stared An Airdrop !")
+        toast.success("You Successfully Stared An Airdrop!");
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
-
     }
   };
 
@@ -61,7 +52,6 @@ const SearchResults = ({ data, query, starr }: { data: any; query: string, starr
         </div>
 
         <Toaster position="top-left" richColors />
-
 
         <CardHeader>
           <CardTitle>{data.airdropName}</CardTitle>
@@ -99,7 +89,13 @@ const SearchResults = ({ data, query, starr }: { data: any; query: string, starr
               </div>
             </div>
             <Separator />
-            
+
+            {/* Display the number of stars */}
+            <div className="flex items-center justify-between">
+              <span className="font-semibold">Airdrop Stars:</span>
+              <span> {data.AirdropStars} People ⭐ This Project</span>
+            </div>
+            <Separator />
           </div>
         </CardContent>
         {/* Center the FloatingDockDisplay */}

@@ -32,13 +32,13 @@ const Home = async () => {
           <TotalCompleated
             names={airdropNames}
             claims={airdropClaims}
-            airdrops={1}
+            airdrops={airdropsCurrent.total}
             TotalCurrentBalance={ui!.balance}
           />
 
         </header>
         
-        COMING SOON...
+        COMING SOON....
 
       </div>
       

@@ -25,7 +25,10 @@ import { UpdateUserBalance } from '@/lib/actions/user.actions';
 import { Loader2 } from "lucide-react";
 import {
   IconBrandBumble,
-  IconSquareRoundedX
+  IconSquareRoundedX,
+  IconBrandTelegram,
+  IconBrandX,
+  IconBrandDiscord
 } from "@tabler/icons-react";
 import { Toaster, toast } from 'sonner'
 
@@ -40,6 +43,11 @@ interface BankCardData {
   airdropTime: string;
   airdropInfo: string;
   airdropId: string
+  AirdropStars: any,
+  Telegram: any,
+  Discord: any,
+  Glaxe: any,
+  Twitter: any
 }
 
 
@@ -61,6 +69,7 @@ const BankCard = ({...data}: BankCardData) => {
     galxe: ""
   }
 
+  console.log(data)
   const [inputs, setInputs] = useState({
     airdropName: data.airdropName,
     airdropLink: data.airdropLink,
@@ -204,6 +213,19 @@ const BankCard = ({...data}: BankCardData) => {
                   </span></p>
                   <p className="text-sm font-bold">Time: <span className="font-normal">{new Date(data.airdropTime).toLocaleString()}</span></p>
                   <p className="text-sm font-bold">Airdrop Info: <span className="font-normal">{data.airdropInfo}</span></p>
+                  <p className="text-sm font-bold">Airdrop Stars: <span className="font-normal">{data.AirdropStars}</span></p>
+                  {/* Social Links Container */}
+                 
+                    <a href={data.Telegram} className="text-blue-500 hover:text-blue-700" aria-label="Telegram">
+                      <IconBrandTelegram size={30} />
+                    </a>
+                    <a href={data.Discord} className="text-[#7289DA] hover:text-[#4F5D73]" aria-label="Discord">
+                      <IconBrandDiscord size={30} />
+                    </a>
+                    <a href={data.Twitter} className="text-[#1DA1F2] hover:text-[#1A91DA]" aria-label="Twitter">
+                      <IconBrandX size={30} />
+                    </a>
+                  
                 </div>
               </HoverCardContent>
 

@@ -1,4 +1,3 @@
-import { FloatingDockDemo } from '@/components/dock'
 import SearchInput from '@/components/searchInput'
 
 const TransactionsHistory = () => {

@@ -31,6 +31,11 @@ const MyBanks = async () => {
                 airdropLink={airdrop.airdropLink}
                 airdropInfo={airdrop.dailyActivity}
                 airdropTime={airdrop.airdropTime}
+                AirdropStars={airdrop.AirdropStars}
+                Telegram= {airdrop.Telegram}
+                Discord = {airdrop.Discord}
+                Twitter= {airdrop.Twitter}
+                Glaxe = {airdrop.Glaxe}
               />
             ))}
             
