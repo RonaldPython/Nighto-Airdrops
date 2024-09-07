@@ -377,3 +377,22 @@ export async function SeeUserStar(AirdropId: String) {
     throw error
   }
 }
+
+
+export async function TopDrops() {
+  const { database } = await createAdminClient();
+
+  try {
+
+    const TopAirdrops = await database.listDocuments(
+      DATABASE_ID!,
+      AIRDROP_COLLECTION_ID!,[
+        Query.greaterThanEqual("AirdropStars", 10)
+      ])
+
+    return TopAirdrops
+  } catch (error) {
+    throw error
+  }
+
+}
