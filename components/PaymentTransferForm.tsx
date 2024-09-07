@@ -43,7 +43,7 @@ const formSchema = z.object({
   airdropLink: z.string().url("Invalid URL"),
   airdropStatus: z.boolean(),
   airdropClaim: z.number(),
-  airdropStars: z.number()
+  AirdropStars: z.number()
 });
 
 
@@ -65,7 +65,7 @@ const PaymentTransferForm = ({ type }: {type: string}) => {
         airdropLink: "",
         airdropStatus: true,
         airdropClaim: 0.00,
-        airdropStars: 0
+        AirdropStars: 0
       },
     });
   
@@ -86,7 +86,7 @@ const PaymentTransferForm = ({ type }: {type: string}) => {
         // Step 3: Update the data object with the new ISO 8601 formatted date
         data.airdropTime = isoFormattedDate;
         data.airdropType = selectedValue;
-        data.airdropStars = 0
+        data.AirdropStars = 0
         
         const newAirdrop = await RegisterAirdrop(data)
 

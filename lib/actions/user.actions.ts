@@ -172,6 +172,7 @@ export async function RegisterAirdrop({ ...data }) {
         airdropStatus: data.airdropStatus,
         airdropLink: data.airdropLink,
         userId: u.$id, // Adding the userId to the document
+        AirdropStars: data.AirdropStars
       }
     );
     
