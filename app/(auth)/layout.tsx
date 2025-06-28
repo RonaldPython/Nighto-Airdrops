@@ -1,6 +1,8 @@
 import Image from "next/image";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { ThemeProvider } from '@/components/ThemeProvider';
+import { ThemeToggle } from '@/components/ThemeToggle';
 
 export default function RootLayout({
   children,
@@ -8,9 +10,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {  
   return (
-    <main className="flex min-h-screen w-full justify-between font-inter">
+    <ThemeProvider>
+      <main className="flex min-h-screen w-full justify-between font-inter bg-background text-foreground">
+        <ThemeToggle />
         {children}
         
+        <div className="auth-asset">
+          <div>
+            <Image 
+              src="/icons/auth-image.svg"
+              alt="auth image"
+              width={500}
+              height={500}
+              className="dark:invert"
+            />
+          </div>
+        </div>
         
         <ToastContainer
           position="top-right"
@@ -23,10 +38,8 @@ export default function RootLayout({
           draggable
           pauseOnHover
           theme="light"
-          
         />
-    </main>
-    
-
+      </main>
+    </ThemeProvider>
   );
 }

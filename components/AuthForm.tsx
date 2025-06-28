@@ -81,8 +81,9 @@ const AuthForm = ({ type }: { type: string }) => {
             width={34}
             height={34}
             alt='Nighto'
+            className="dark:invert"
           />
-          <h1 className='text-26 font-ibm-plex-serif font-bold text-black-1'>
+          <h1 className='text-26 font-ibm-plex-serif font-bold text-black-1 dark:text-white'>
             Nighto
           </h1>
         </Link>
@@ -105,14 +106,14 @@ const AuthForm = ({ type }: { type: string }) => {
                     name="firstName"
                     render={({ field }) => (
                       <div className='form-item'>
-                        <FormLabel className='form-label'>
+                        <FormLabel className='form-label dark:text-gray-300'>
                           First Name
                         </FormLabel>
                         <div className='flex w-full flex-col'>
                           <FormControl>
                             <Input
                               placeholder='Enter Your First Name'
-                              className='input-class'
+                              className='input-class dark:bg-gray-800 dark:border-gray-600 dark:text-white'
                               {...field}
                             />
                           </FormControl>
@@ -128,14 +129,14 @@ const AuthForm = ({ type }: { type: string }) => {
                     name="lastName"
                     render={({ field }) => (
                       <div className='form-item'>
-                        <FormLabel className='form-label'>
+                        <FormLabel className='form-label dark:text-gray-300'>
                           Last Name
                         </FormLabel>
                         <div className='flex w-full flex-col'>
                           <FormControl>
                             <Input
                               placeholder='Enter Your Last Name'
-                              className='input-class'
+                              className='input-class dark:bg-gray-800 dark:border-gray-600 dark:text-white'
                               {...field}
                             />
                           </FormControl>
@@ -151,14 +152,14 @@ const AuthForm = ({ type }: { type: string }) => {
                     name="address"
                     render={({ field }) => (
                       <div className='form-item'>
-                        <FormLabel className='form-label'>
+                        <FormLabel className='form-label dark:text-gray-300'>
                           Crypto Address
                         </FormLabel>
                         <div className='flex w-full flex-col'>
                           <FormControl>
                             <Input
                               placeholder='Enter Your EVM (ETH, BSC, Polygon) Address'
-                              className='input-class'
+                              className='input-class dark:bg-gray-800 dark:border-gray-600 dark:text-white'
                               {...field}
                             />
                           </FormControl>
@@ -176,14 +177,14 @@ const AuthForm = ({ type }: { type: string }) => {
                 name="email"
                 render={({ field }) => (
                   <div className='form-item'>
-                    <FormLabel className='form-label'>
+                    <FormLabel className='form-label dark:text-gray-300'>
                       Email
                     </FormLabel>
                     <div className='flex w-full flex-col'>
                       <FormControl>
                         <Input
                           placeholder='Enter Your Email'
-                          className='input-class'
+                          className='input-class dark:bg-gray-800 dark:border-gray-600 dark:text-white'
                           {...field}
                         />
                       </FormControl>
@@ -199,14 +200,14 @@ const AuthForm = ({ type }: { type: string }) => {
                 name="password"
                 render={({ field }) => (
                   <div className='form-item'>
-                    <FormLabel className='form-label'>
+                    <FormLabel className='form-label dark:text-gray-300'>
                       Password
                     </FormLabel>
                     <div className='flex w-full flex-col'>
                       <FormControl>
                         <Input
                           placeholder='Enter Your Password'
-                          className='input-class'
+                          className='input-class dark:bg-gray-800 dark:border-gray-600 dark:text-white'
                           type='password'
                           {...field}
                         />
@@ -231,7 +232,7 @@ const AuthForm = ({ type }: { type: string }) => {
             </form>
           </Form>
           <footer className='flex justify-center gap-1'>
-            <p className='text-14 font-normal text-gray-600'>{type === 'sign-in'
+            <p className='text-14 font-normal text-gray-600 dark:text-gray-400'>{type === 'sign-in'
               ? "Don't have an account?"
               : "Already have an account?"}
             </p>
