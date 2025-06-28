@@ -3,6 +3,8 @@ import SearchResults from '@/components/SearchResults';
 import { format } from 'date-fns';
 import { SeeUserStar } from "@/lib/actions/user.actions"
 
+export const dynamic = 'force-dynamic';
+
 const SearchResultsPage = async ({ params }: { params: { query: string } }) => {
   const { query } = params;
 

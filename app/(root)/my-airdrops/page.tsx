@@ -4,6 +4,8 @@ import { getLoggedInUser } from '@/lib/actions/user.actions';
 import { GetAirdropsInfo } from '@/lib/actions/user.actions';
 import React from 'react'
 
+export const dynamic = 'force-dynamic';
+
 const MyBanks = async () => {
   const loggedIn = await getLoggedInUser();
   const airdrops = await GetAirdropsInfo();

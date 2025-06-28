@@ -2,6 +2,8 @@ import AuthForm from '@/components/AuthForm'
 import { getLoggedInUser } from '@/lib/actions/user.actions';
 import { redirect } from 'next/navigation';
 
+export const dynamic = 'force-dynamic';
+
 const SignUp = async () => {
   const loggedInUser = await getLoggedInUser();
 

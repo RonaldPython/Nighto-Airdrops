@@ -3,6 +3,8 @@ import React from 'react'
 import { getLoggedInUser } from '@/lib/actions/user.actions';
 import { redirect } from 'next/navigation';
 
+export const dynamic = 'force-dynamic';
+
 const SignIn = async () => {
   
   const loggedInUser = await getLoggedInUser();

@@ -3,6 +3,7 @@ import RightSideBar from '@/components/RightSideBar';
 import TotalCompleated from '@/components/TotalCompleted';
 import { GetAirdropsInfo, getLoggedInUser, GetUserBalance } from '@/lib/actions/user.actions';
 
+export const dynamic = 'force-dynamic';
 
 const Home = async () => {
 

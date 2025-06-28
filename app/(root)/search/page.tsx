@@ -2,6 +2,8 @@ import SearchInput from '@/components/searchInput'
 import { CarouselSize } from '@/components/TopDrops'
 import { TopDrops } from '@/lib/actions/user.actions'
 
+export const dynamic = 'force-dynamic';
+
 const TransactionsHistory = async () => {
 
   const res = await TopDrops()

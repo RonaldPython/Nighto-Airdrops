@@ -3,6 +3,7 @@ import HeaderBox from '@/components/HeaderBox'
 import { getLoggedInUser } from '@/lib/actions/user.actions';
 import PaymentTransferForm from '@/components/PaymentTransferForm'
 
+export const dynamic = 'force-dynamic';
 
 const RegisterAirdrop = async () => {
   const loggedIn = await getLoggedInUser();
